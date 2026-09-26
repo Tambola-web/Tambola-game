@@ -1,13 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Online Tambola</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Tambola</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    #calledNumber {
+        font-size: 60px;
+        font-weight: bold;
+        margin: 20px;
+    }
+
+    button {
+        font-size: 20px;
+        padding: 12px 25px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+    }
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 5px;
+        max-width: 600px;
+        margin: 25px auto;
+    }
+
+    .number {
+        background: white;
+        border: 1px solid #ccc;
+        padding: 10px 3px;
+        font-weight: bold;
+    }
+
+    .called {
+        background: #333;
+        color: white;
+    }
+</style>
 </head>
+
 <body>
 
-    <h1>Welcome to Online Tambola</h1>
+<h1>🎟️ Online Tambola</h1>
+<p>Automatic Number Caller</p>
 
-    <p>Your Tambola game will appear here.</p>
+<div id="calledNumber">--</div>
+
+<button onclick="callNumber()">Call Number</button>
+
+<div class="board" id="board"></div>
+
+<script>
+
+let numbers = [];
+
+for (let i = 1; i <= 90; i++) {
+    numbers.push(i);
+}
+
+let board = document.getElementById("board");
+
+numbers.forEach(function(number) {
+    let box = document.createElement("div");
+    box.className = "number";
+    box.id = "number-" + number;
+    box.innerText = number;
+    board.appendChild(box);
+});
+
+function callNumber() {
+
+    if (numbers.length === 0) {
+        alert("All 90 numbers have been called!");
+        return;
+    }
+
+    let randomIndex = Math.floor(Math.random() * numbers.length);
+    let number = numbers.splice(randomIndex, 1)[0];
+
+    document.getElementById("calledNumber").innerText = number;
+
+    document.getElementById("number-" + number)
+        .classList.add("called");
+}
+
+</script>
 
 </body>
 </html>

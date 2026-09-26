@@ -1,32 +1,277 @@
-function startGame() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambola</title>
 
-    if (gameRunning) {
-        return;
-    }
+<style>
 
-    gameRunning = true;
-
-    callNumber();
-
-    gameTimer =
-        setInterval(callNumber, 7000);
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
 }
 
-function pauseGame() {
+/* NUMBER BOARD */
 
-    gameRunning = false;
-
-    if (gameTimer !== null) {
-
-        clearInterval(gameTimer);
-
-        gameTimer = null;
-
-    }
-
-    window.speechSynthesis.cancel();
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 3px;
+    max-width: 600px;
+    margin: 10px auto;
 }
 
-window.onload = function() {
-    startGame();
-};
+.number {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 7px 2px;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* TWO ALTERNATING COLOURS */
+
+.number:nth-child(odd) {
+    background: #e6f4ff;
+    color: #111;
+}
+
+.number:nth-child(even) {
+    background: #fff0d9;
+    color: #111;
+}
+
+/* CALLED NUMBER */
+
+.number.called {
+    background: #000;
+    color: white;
+    border-color: #000;
+}
+
+/* CALLED NUMBERS HISTORY */
+
+#calledNumbers {
+    max-width: 600px;
+    margin: 8px auto;
+    padding: 5px;
+}
+
+.calledNumber {
+    display: inline-block;
+    margin: 3px;
+    padding: 5px 8px;
+    background: #ddd;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* TICKETS */
+
+.tickets {
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.ticket-container {
+    background: white;
+    margin: 15px auto;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.ticket {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    border: 2px solid #333;
+}
+
+.cell {
+    min-height: 38px;
+    border: 1px solid #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.cell.marked {
+    background: #000;
+    color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 6px;
+    }
+
+    .number {
+        padding: 6px 1px;
+        font-size: 13px;
+    }
+
+    .cell {
+        min-height: 35px;
+        font-size: 13px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="board" id="board"></div>
+
+<div id="calledNumbers"></div>
+
+<div class="tickets">
+
+    <!-- TICKET 1 -->
+
+    <div class="ticket-container">
+
+        <div class="ticket">
+
+            <div class="cell" data-number="3">3</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="21">21</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="44">44</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="68">68</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="83">83</div>
+
+            <div class="cell" data-number="7">7</div>
+            <div class="cell" data-number="15">15</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="36">36</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="57">57</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="74">74</div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell" data-number="19">19</div>
+            <div class="cell" data-number="27">27</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="49">49</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="62">62</div>
+            <div class="cell" data-number="79">79</div>
+            <div class="cell"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TICKET 2 -->
+
+    <div class="ticket-container">
+
+        <div class="ticket">
+
+            <div class="cell" data-number="2">2</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="24">24</div>
+            <div class="cell" data-number="31">31</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell" data-number="65">65</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="89">89</div>
+
+            <div class="cell"></div>
+            <div class="cell" data-number="11">11</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="38">38</div>
+            <div class="cell" data-number="46">46</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell" data-number="72">72</div>
+            <div class="cell" data-number="84">84</div>
+
+            <div class="cell" data-number="8">8</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="29">29</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="53">53</div>
+            <div class="cell" data-number="59">59</div>
+            <div class="cell" data-number="67">67</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let tambolaCalls = {
+
+1: "Kelly's eye, number one",
+2: "Two little ducks, number two",
+3: "Me and you, number three",
+4: "Knock at the door, number four",
+5: "Man alive, number five",
+6: "Half a dozen, number six",
+7: "Lucky seven, number seven",
+8: "Garden gate, number eight",
+9: "Doctor's orders, number nine",
+10: "Perfect ten, number ten",
+
+11: "Beautiful legs, number eleven",
+12: "One dozen, number twelve",
+13: "Unlucky thirteen, number thirteen",
+14: "Valentine's Day, number fourteen",
+15: "Young and keen, number fifteen",
+16: "Sweet sixteen, number sixteen",
+17: "Dancing queen, number seventeen",
+18: "Coming of age, number eighteen",
+19: "End of teens, number nineteen",
+20: "One score, number twenty",
+
+21: "Key of the door, number twenty-one",
+22: "Two little ducks, number twenty-two",
+23: "Thee and me, number twenty-three",
+24: "Two dozen, number twenty-four",
+25: "Duck and dive, number twenty-five",
+26: "Pick and mix, number twenty-six",
+27: "Gateway to heaven, number twenty-seven",
+28: "Overweight, number twenty-eight",
+29: "Rise and shine, number twenty-nine",
+30: "Dirty Gertie, number thirty",
+
+31: "Get up and run, number thirty-one",
+32: "Buckle my shoe, number thirty-two",
+33: "All the threes, number thirty-three",
+34: "Ask for more, number thirty-four",
+35: "Jump and jive, number thirty-five",
+36: "Three dozen, number thirty-six",
+37: "More than eleven, number thirty-seven",
+38: "Christmas cake, number thirty-eight",
+39: "Steps, number thirty-nine",
+40: "Life begins at forty, number forty",
+
+41: "Time for fun, number forty-one",
+42: "Winnie the Pooh, number forty-two",
+43: "Down on your knees, number forty-three",
+44: "Droopy drawers, number forty-four",
+45: "Half

@@ -3,33 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Online Tambola</title>
 
 <style>
-
 body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
     margin: 0;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
 }
 
 h1 {
-    margin-bottom: 15px;
+    margin: 8px 0 12px;
+    font-size: 24px;
 }
-
-h2 {
-    margin-top: 25px;
-}
-
-/* 1-90 BOARD */
 
 .board {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
+    gap: 3px;
     max-width: 600px;
     margin: auto;
 }
@@ -37,9 +30,10 @@ h2 {
 .number {
     background: white;
     border: 1px solid #ccc;
-    padding: 9px 3px;
+    padding: 7px 2px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 .number.called {
@@ -47,62 +41,45 @@ h2 {
     color: white;
 }
 
-
-/* CALL BUTTON */
-
-button {
-    font-size: 17px;
-    padding: 11px 20px;
-    margin: 15px 5px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
+.controls {
+    margin: 10px 0;
 }
 
-
-/* CALLED NUMBERS */
+button {
+    font-size: 14px;
+    padding: 7px 14px;
+    margin: 3px;
+    border: none;
+    border-radius: 6px;
+}
 
 #calledNumbers {
     max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 12px;
-    min-height: 35px;
-    border-radius: 8px;
+    margin: 8px auto;
+    padding: 5px;
 }
 
 .calledNumber {
     display: inline-block;
-    margin: 4px;
-    padding: 7px 10px;
+    margin: 3px;
+    padding: 5px 8px;
     background: #ddd;
-    border-radius: 5px;
+    border-radius: 4px;
     font-weight: bold;
+    font-size: 14px;
 }
-
-
-/* TICKETS */
 
 .tickets {
     max-width: 600px;
-    margin: auto;
+    margin: 10px auto;
 }
 
 .ticket-container {
     background: white;
-    margin: 20px auto;
-    padding: 12px;
-    border-radius: 10px;
+    margin: 15px auto;
+    padding: 8px;
+    border-radius: 8px;
 }
-
-.ticket-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-
-/* TAMBOLA TICKET */
 
 .ticket {
     display: grid;
@@ -111,13 +88,13 @@ button {
 }
 
 .cell {
-    min-height: 42px;
+    min-height: 38px;
     border: 1px solid #aaa;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .cell.marked {
@@ -125,70 +102,40 @@ button {
     color: white;
 }
 
-
-/* MOBILE */
-
 @media (max-width: 500px) {
-
     body {
-        padding: 8px;
+        padding: 6px;
     }
 
     .number {
-        padding: 8px 2px;
-        font-size: 14px;
+        padding: 6px 1px;
+        font-size: 13px;
     }
 
     .cell {
-        min-height: 38px;
-        font-size: 14px;
+        min-height: 35px;
+        font-size: 13px;
     }
-
 }
-
 </style>
 </head>
-
 
 <body>
 
 <h1>🎟️ Online Tambola</h1>
 
-
-<!-- 1-90 NUMBER BOARD -->
-
-<h2>1–90</h2>
-
 <div class="board" id="board"></div>
 
-
-<!-- HOST CONTROL -->
-
-<button onclick="callNumber()">Call Next Number</button>
-
-
-<!-- CALLED NUMBER HISTORY -->
-
-<h2>Called Numbers</h2>
+<div class="controls">
+    <button onclick="startGame()">▶ Start</button>
+    <button onclick="pauseGame()">⏸ Pause</button>
+</div>
 
 <div id="calledNumbers"></div>
 
-
-<!-- PLAYER TICKETS -->
-
-<h2>Player Tickets</h2>
-
 <div class="tickets">
 
-
-    <!-- PLAYER 1 -->
-
     <div class="ticket-container">
-
-        <div class="ticket-title">
-            Player 1
-        </div>
-
         <div class="ticket">
 
             <div class="cell" data-number="3">3</div>
@@ -222,180 +169,10 @@ button {
             <div class="cell"></div>
 
         </div>
-
     </div>
 
 
-    <!-- PLAYER 2 -->
-
     <div class="ticket-container">
-
-        <div class="ticket-title">
-            Player 2
-        </div>
-
         <div class="ticket">
 
             <div class="cell" data-number="2">2</div>
-            <div class="cell"></div>
-            <div class="cell" data-number="24">24</div>
-            <div class="cell" data-number="31">31</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell" data-number="65">65</div>
-            <div class="cell"></div>
-            <div class="cell" data-number="89">89</div>
-
-            <div class="cell"></div>
-            <div class="cell" data-number="11">11</div>
-            <div class="cell"></div>
-            <div class="cell" data-number="38">38</div>
-            <div class="cell" data-number="46">46</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell" data-number="72">72</div>
-            <div class="cell" data-number="84">84</div>
-
-            <div class="cell" data-number="8">8</div>
-            <div class="cell"></div>
-            <div class="cell" data-number="29">29</div>
-            <div class="cell"></div>
-            <div class="cell" data-number="53">53</div>
-            <div class="cell" data-number="59">59</div>
-            <div class="cell" data-number="67">67</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   CREATE 1-90 BOARD
-========================= */
-
-let availableNumbers = [];
-
-let calledNumbers = [];
-
-for (let i = 1; i <= 90; i++) {
-    availableNumbers.push(i);
-}
-
-
-let board = document.getElementById("board");
-
-
-availableNumbers.forEach(function(number) {
-
-    let box = document.createElement("div");
-
-    box.className = "number";
-
-    box.id = "number-" + number;
-
-    box.innerText = number;
-
-    board.appendChild(box);
-
-});
-
-
-/* =========================
-   CALL NUMBER
-========================= */
-
-function callNumber() {
-
-    if (availableNumbers.length === 0) {
-
-        alert("All 90 numbers have been called!");
-
-        return;
-    }
-
-
-    /* Select random number */
-
-    let randomIndex =
-        Math.floor(Math.random() * availableNumbers.length);
-
-
-    let number =
-        availableNumbers.splice(randomIndex, 1)[0];
-
-
-    /* Save number */
-
-    calledNumbers.push(number);
-
-
-    /* Mark 1-90 board */
-
-    document
-        .getElementById("number-" + number)
-        .classList.add("called");
-
-
-    /* Show number in history */
-
-    let calledBox =
-        document.createElement("span");
-
-    calledBox.className = "calledNumber";
-
-    calledBox.innerText = number;
-
-
-    document
-        .getElementById("calledNumbers")
-        .appendChild(calledBox);
-
-
-    /* =========================
-       MARK PLAYER TICKETS
-    ========================= */
-
-    let ticketNumbers =
-        document.querySelectorAll(
-            '[data-number="' + number + '"]'
-        );
-
-
-    ticketNumbers.forEach(function(cell) {
-
-        cell.classList.add("marked");
-
-    });
-
-
-    /* =========================
-       SPEAK NUMBER
-    ========================= */
-
-    let speech =
-        new SpeechSynthesisUtterance(
-            "Number " + number
-        );
-
-
-    speech.rate = 0.8;
-
-    speech.pitch = 1;
-
-    speech.volume = 1;
-
-
-    window.speechSynthesis.speak(speech);
-
-}
-
-</script>
-
-</body>
-</html>

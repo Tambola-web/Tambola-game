@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Online Tambola</title>
 
 <style>
@@ -11,25 +12,11 @@
         text-align: center;
         background: #f4f4f4;
         margin: 0;
-        padding: 20px;
+        padding: 15px;
     }
 
     h1 {
         margin-bottom: 5px;
-    }
-
-    #calledNumber {
-        font-size: 60px;
-        font-weight: bold;
-        margin: 20px;
-    }
-
-    button {
-        font-size: 20px;
-        padding: 12px 25px;
-        cursor: pointer;
-        border: none;
-        border-radius: 8px;
     }
 
     .board {
@@ -37,7 +24,7 @@
         grid-template-columns: repeat(10, 1fr);
         gap: 5px;
         max-width: 600px;
-        margin: 25px auto;
+        margin: 20px auto;
     }
 
     .number {
@@ -45,11 +32,39 @@
         border: 1px solid #ccc;
         padding: 10px 3px;
         font-weight: bold;
+        border-radius: 4px;
     }
 
     .called {
         background: #333;
         color: white;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 12px 25px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        margin: 10px;
+    }
+
+    #calledNumbers {
+        margin: 20px auto;
+        max-width: 600px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        min-height: 40px;
+    }
+
+    .calledNumber {
+        display: inline-block;
+        margin: 5px;
+        padding: 8px 12px;
+        background: #ddd;
+        border-radius: 5px;
+        font-weight: bold;
     }
 </style>
 </head>
@@ -57,46 +72,78 @@
 <body>
 
 <h1>🎟️ Online Tambola</h1>
-<p>Automatic Number Caller</p>
-
-<div id="calledNumber">--</div>
 
 <button onclick="callNumber()">Call Number</button>
+
+<h2>Numbers Called</h2>
+
+<div id="calledNumbers"></div>
+
+<h2>1–90 Number Board</h2>
 
 <div class="board" id="board"></div>
 
 <script>
 
-let numbers = [];
+let availableNumbers = [];
 
+let calledNumbers = [];
+
+// Create numbers 1–90
 for (let i = 1; i <= 90; i++) {
-    numbers.push(i);
+    availableNumbers.push(i);
 }
 
+// Create number board
 let board = document.getElementById("board");
 
-numbers.forEach(function(number) {
+availableNumbers.forEach(function(number) {
+
     let box = document.createElement("div");
+
     box.className = "number";
+
     box.id = "number-" + number;
+
     box.innerText = number;
+
     board.appendChild(box);
 });
 
 function callNumber() {
 
-    if (numbers.length === 0) {
+    // Check if all numbers have been called
+    if (availableNumbers.length === 0) {
         alert("All 90 numbers have been called!");
         return;
     }
 
-    let randomIndex = Math.floor(Math.random() * numbers.length);
-    let number = numbers.splice(randomIndex, 1)[0];
+    // Select random number
+    let randomIndex =
+        Math.floor(Math.random() * availableNumbers.length);
 
-    document.getElementById("calledNumber").innerText = number;
+    let number =
+        availableNumbers.splice(randomIndex, 1)[0];
 
-    document.getElementById("number-" + number)
+    // Save called number
+    calledNumbers.push(number);
+
+    // Mark number on board
+    document
+        .getElementById("number-" + number)
         .classList.add("called");
+
+    // Show called number below
+    let calledBox =
+        document.createElement("span");
+
+    calledBox.className = "calledNumber";
+
+    calledBox.innerText = number;
+
+    document
+        .getElementById("calledNumbers")
+        .appendChild(calledBox);
 }
 
 </script>

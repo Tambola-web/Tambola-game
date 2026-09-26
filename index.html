@@ -7,95 +7,289 @@
 <title>Online Tambola</title>
 
 <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-top: 25px;
+}
+
+/* 1-90 BOARD */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.number {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 9px 3px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.number.called {
+    background: #222;
+    color: white;
+}
+
+
+/* CALL BUTTON */
+
+button {
+    font-size: 17px;
+    padding: 11px 20px;
+    margin: 15px 5px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+
+/* CALLED NUMBERS */
+
+#calledNumbers {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 12px;
+    min-height: 35px;
+    border-radius: 8px;
+}
+
+.calledNumber {
+    display: inline-block;
+    margin: 4px;
+    padding: 7px 10px;
+    background: #ddd;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+
+/* TICKETS */
+
+.tickets {
+    max-width: 600px;
+    margin: auto;
+}
+
+.ticket-container {
+    background: white;
+    margin: 20px auto;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.ticket-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+/* TAMBOLA TICKET */
+
+.ticket {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    border: 2px solid #333;
+}
+
+.cell {
+    min-height: 42px;
+    border: 1px solid #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.cell.marked {
+    background: #222;
+    color: white;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
     body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background: #f4f4f4;
-        margin: 0;
-        padding: 15px;
-    }
-
-    h1 {
-        margin-bottom: 5px;
-    }
-
-    .board {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 5px;
-        max-width: 600px;
-        margin: 20px auto;
+        padding: 8px;
     }
 
     .number {
-        background: white;
-        border: 1px solid #ccc;
-        padding: 10px 3px;
-        font-weight: bold;
-        border-radius: 4px;
+        padding: 8px 2px;
+        font-size: 14px;
     }
 
-    .called {
-        background: #333;
-        color: white;
+    .cell {
+        min-height: 38px;
+        font-size: 14px;
     }
 
-    button {
-        font-size: 18px;
-        padding: 12px 25px;
-        cursor: pointer;
-        border: none;
-        border-radius: 8px;
-        margin: 10px;
-    }
+}
 
-    #calledNumbers {
-        margin: 20px auto;
-        max-width: 600px;
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        min-height: 40px;
-    }
-
-    .calledNumber {
-        display: inline-block;
-        margin: 5px;
-        padding: 8px 12px;
-        background: #ddd;
-        border-radius: 5px;
-        font-weight: bold;
-    }
 </style>
 </head>
+
 
 <body>
 
 <h1>🎟️ Online Tambola</h1>
 
-<button onclick="callNumber()">Call Number</button>
 
-<h2>Numbers Called</h2>
+<!-- 1-90 NUMBER BOARD -->
 
-<div id="calledNumbers"></div>
-
-<h2>1–90 Number Board</h2>
+<h2>1–90</h2>
 
 <div class="board" id="board"></div>
 
+
+<!-- HOST CONTROL -->
+
+<button onclick="callNumber()">Call Next Number</button>
+
+
+<!-- CALLED NUMBER HISTORY -->
+
+<h2>Called Numbers</h2>
+
+<div id="calledNumbers"></div>
+
+
+<!-- PLAYER TICKETS -->
+
+<h2>Player Tickets</h2>
+
+<div class="tickets">
+
+
+    <!-- PLAYER 1 -->
+
+    <div class="ticket-container">
+
+        <div class="ticket-title">
+            Player 1
+        </div>
+
+        <div class="ticket">
+
+            <div class="cell" data-number="3">3</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="21">21</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="44">44</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="68">68</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="83">83</div>
+
+            <div class="cell" data-number="7">7</div>
+            <div class="cell" data-number="15">15</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="36">36</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="57">57</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="74">74</div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell" data-number="19">19</div>
+            <div class="cell" data-number="27">27</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="49">49</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="62">62</div>
+            <div class="cell" data-number="79">79</div>
+            <div class="cell"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PLAYER 2 -->
+
+    <div class="ticket-container">
+
+        <div class="ticket-title">
+            Player 2
+        </div>
+
+        <div class="ticket">
+
+            <div class="cell" data-number="2">2</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="24">24</div>
+            <div class="cell" data-number="31">31</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell" data-number="65">65</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="89">89</div>
+
+            <div class="cell"></div>
+            <div class="cell" data-number="11">11</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="38">38</div>
+            <div class="cell" data-number="46">46</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell" data-number="72">72</div>
+            <div class="cell" data-number="84">84</div>
+
+            <div class="cell" data-number="8">8</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="29">29</div>
+            <div class="cell"></div>
+            <div class="cell" data-number="53">53</div>
+            <div class="cell" data-number="59">59</div>
+            <div class="cell" data-number="67">67</div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
+
+/* =========================
+   CREATE 1-90 BOARD
+========================= */
 
 let availableNumbers = [];
 
 let calledNumbers = [];
 
-// Create numbers 1–90
 for (let i = 1; i <= 90; i++) {
     availableNumbers.push(i);
 }
 
-// Create number board
+
 let board = document.getElementById("board");
+
 
 availableNumbers.forEach(function(number) {
 
@@ -108,32 +302,48 @@ availableNumbers.forEach(function(number) {
     box.innerText = number;
 
     board.appendChild(box);
+
 });
+
+
+/* =========================
+   CALL NUMBER
+========================= */
 
 function callNumber() {
 
-    // Check if all numbers have been called
     if (availableNumbers.length === 0) {
+
         alert("All 90 numbers have been called!");
+
         return;
     }
 
-    // Select random number
+
+    /* Select random number */
+
     let randomIndex =
         Math.floor(Math.random() * availableNumbers.length);
+
 
     let number =
         availableNumbers.splice(randomIndex, 1)[0];
 
-    // Save called number
+
+    /* Save number */
+
     calledNumbers.push(number);
 
-    // Mark number on board
+
+    /* Mark 1-90 board */
+
     document
         .getElementById("number-" + number)
         .classList.add("called");
 
-    // Show called number below
+
+    /* Show number in history */
+
     let calledBox =
         document.createElement("span");
 
@@ -141,9 +351,48 @@ function callNumber() {
 
     calledBox.innerText = number;
 
+
     document
         .getElementById("calledNumbers")
         .appendChild(calledBox);
+
+
+    /* =========================
+       MARK PLAYER TICKETS
+    ========================= */
+
+    let ticketNumbers =
+        document.querySelectorAll(
+            '[data-number="' + number + '"]'
+        );
+
+
+    ticketNumbers.forEach(function(cell) {
+
+        cell.classList.add("marked");
+
+    });
+
+
+    /* =========================
+       SPEAK NUMBER
+    ========================= */
+
+    let speech =
+        new SpeechSynthesisUtterance(
+            "Number " + number
+        );
+
+
+    speech.rate = 0.8;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+
+    window.speechSynthesis.speak(speech);
+
 }
 
 </script>

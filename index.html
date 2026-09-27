@@ -274,4 +274,237 @@ let tambolaCalls = {
 42: "Winnie the Pooh, number forty-two",
 43: "Down on your knees, number forty-three",
 44: "Droopy drawers, number forty-four",
-45: "Half
+45: "Halfway there, number forty-five",
+46: "Up to tricks, number forty-six",
+47: "Four and seven, number forty-seven",
+48: "Four dozen, number forty-eight",
+49: "Rise and shine, number forty-nine",
+50: "Half a century, number fifty",
+
+51: "Tweak of the thumb, number fifty-one",
+52: "Danny La Rue, number fifty-two",
+53: "Stuck in the tree, number fifty-three",
+54: "Clean the floor, number fifty-four",
+55: "Snakes alive, number fifty-five",
+56: "Was she worth it, number fifty-six",
+57: "Heinz varieties, number fifty-seven",
+58: "Make them wait, number fifty-eight",
+59: "Brighton line, number fifty-nine",
+60: "Five dozen, number sixty",
+
+61: "Baker's bun, number sixty-one",
+62: "Turn the screw, number sixty-two",
+63: "Tickle me, number sixty-three",
+64: "Red raw, number sixty-four",
+65: "Old age pension, number sixty-five",
+66: "Clickety click, number sixty-six",
+67: "Made in heaven, number sixty-seven",
+68: "Pick a mate, number sixty-eight",
+69: "Either way up, number sixty-nine",
+70: "Three score and ten, number seventy",
+
+71: "Bang on the drum, number seventy-one",
+72: "Six dozen, number seventy-two",
+73: "Queen bee, number seventy-three",
+74: "Candy store, number seventy-four",
+75: "Strive and strive, number seventy-five",
+76: "Trombones, number seventy-six",
+77: "Sunset strip, number seventy-seven",
+78: "Heaven's gate, number seventy-eight",
+79: "One more time, number seventy-nine",
+80: "Eight and blank, number eighty",
+
+81: "Stop and run, number eighty-one",
+82: "Straight on through, number eighty-two",
+83: "Time for tea, number eighty-three",
+84: "Seven dozen, number eighty-four",
+85: "Staying alive, number eighty-five",
+86: "Between the sticks, number eighty-six",
+87: "Torquay in Devon, number eighty-seven",
+88: "Two fat ladies, number eighty-eight",
+89: "Almost there, number eighty-nine",
+90: "Top of the shop, number ninety"
+
+};
+
+
+let availableNumbers = [];
+let calledNumbers = [];
+let gameTimer = null;
+let gameRunning = false;
+
+
+/* CREATE NUMBERS 1-90 */
+
+for (let i = 1; i <= 90; i++) {
+
+    availableNumbers.push(i);
+
+}
+
+
+/* CREATE BOARD */
+
+let board = document.getElementById("board");
+
+
+availableNumbers.forEach(function(number) {
+
+    let box = document.createElement("div");
+
+    box.className = "number";
+
+    box.id = "number-" + number;
+
+    box.innerText = number;
+
+    board.appendChild(box);
+
+});
+
+
+/* CALL RANDOM NUMBER */
+
+function callNumber() {
+
+    if (availableNumbers.length === 0) {
+
+        pauseGame();
+
+        return;
+
+    }
+
+
+    let randomIndex =
+        Math.floor(Math.random() * availableNumbers.length);
+
+
+    let number =
+        availableNumbers.splice(randomIndex, 1)[0];
+
+
+    calledNumbers.push(number);
+
+
+    /* HIGHLIGHT NUMBER */
+
+    document
+        .getElementById("number-" + number)
+        .classList.add("called");
+
+
+    /* ADD TO CALLED HISTORY */
+
+    let calledBox =
+        document.createElement("span");
+
+
+    calledBox.className = "calledNumber";
+
+    calledBox.innerText = number;
+
+
+    document
+        .getElementById("calledNumbers")
+        .appendChild(calledBox);
+
+
+    /* MARK TICKET */
+
+    let ticketNumbers =
+        document.querySelectorAll(
+            '[data-number="' + number + '"]'
+        );
+
+
+    ticketNumbers.forEach(function(cell) {
+
+        cell.classList.add("marked");
+
+    });
+
+
+    /* VOICE CALL */
+
+    let phrase = tambolaCalls[number];
+
+
+    let speech =
+        new SpeechSynthesisUtterance(phrase);
+
+
+    speech.rate = 0.8;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+/* START GAME */
+
+function startGame() {
+
+    if (gameRunning) {
+
+        return;
+
+    }
+
+
+    gameRunning = true;
+
+
+    /* CALL FIRST NUMBER IMMEDIATELY */
+
+    callNumber();
+
+
+    /* CALL EVERY 7 SECONDS */
+
+    gameTimer =
+        setInterval(callNumber, 7000);
+
+}
+
+
+/* STOP GAME */
+
+function pauseGame() {
+
+    gameRunning = false;
+
+
+    if (gameTimer !== null) {
+
+        clearInterval(gameTimer);
+
+        gameTimer = null;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+}
+
+
+/* START AUTOMATICALLY */
+
+window.onload = function() {
+
+    startGame();
+
+};
+
+</script>
+
+</body>
+</html>
